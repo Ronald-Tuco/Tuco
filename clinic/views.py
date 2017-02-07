@@ -1,6 +1,7 @@
-from django.http import HttpResponse
-
+from django.shortcuts import render
+from .models import Patient
 
 def index(request):
-    return HttpResponse("Hello, world. You're at the clinic index.")
-# Create your views here.
+    patients = Patient.objects.order_by('-last_name')
+    context = {'patients': patients}
+    return render(request, 'patients/index.html', context)
