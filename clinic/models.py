@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from tkinter import *
 
 class Doctor(models.Model):
     user = models.OneToOneField(User, primary_key=True)
@@ -30,3 +31,25 @@ class Visit(models.Model):
     patient = models.ForeignKey(Patient)
     doctor = models.ForeignKey(Doctor)
     comments = models.CharField(max_length=2000)
+    
+class Checkbar(Frame):
+   def __init__(self, parent=None, picks=[], side=LEFT, anchor=W):
+      Frame.__init__(self, parent)
+      self.vars = []
+      for pick in picks:
+         var = IntVar()
+         chk = Checkbutton(self, text=pick, variable=var)
+         chk.pack(side=side, anchor=anchor, expand=YES)
+         self.vars.append(var)
+   def state(self):
+      return map((lambda var: var.get()), self.vars)
+if __name__ == '__main__':
+   root = Tk()
+   lng = Checkbar(root, ['Primera Vez', 'Usa solo L', 'Astenopia'])
+   tgl = Checkbar(root, ['Rotura de lentes','Usa solo C', 'Progresivas'])
+   lng.pack(side=TOP,  fill=X)
+   tgl.pack(side=LEFT)
+   lng.config(relief=GROOVE, bd=2)
+
+   def allstates(): 
+      print(list(lng.state()), list(tgl.state()))
