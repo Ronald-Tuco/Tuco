@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from multiselectfield import MultiSelectField
 
 class Doctor(models.Model):
     user = models.OneToOneField(User, primary_key=True)
@@ -26,6 +27,15 @@ class Patient(models.Model):
     	return self.last_name + ', ' + self.first_name
 
 class Visit(models.Model):
+    BACKGROUND_CHOICES = (
+        ('first time', 'first time'),
+        ('Astenopia', 'Astenopia'),
+        ('Glasses broken', 'Glasses broken'),
+        ('Uses just G', 'Uses just G'),
+        ('Uses just C', 'Uses just C'),
+        ('Bifocales', 'Bifocales')
+    )
+    title = Multiselectfield(choices=BACKGROUND_CHOICES)
     date = models.DateTimeField()
     patient = models.ForeignKey(Patient)
     doctor = models.ForeignKey(Doctor)
